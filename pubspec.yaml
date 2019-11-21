@@ -1,0 +1,15 @@
+name: neo4j_client
+description: HTTP Neo4j Client
+version: 1.0.0
+homepage: https://github.com/rikkycrawler/neo4j_client
+author: A. Skabin <a.skabin@allfuneral.com>
+
+environment:
+  sdk: '>=2.1.0 <3.0.0'
+
+dependencies:
+  meta: ^1.1.7
+  http_client: ^1.0.3
+
+dev_dependencies:
+  test: ^1.0.0
