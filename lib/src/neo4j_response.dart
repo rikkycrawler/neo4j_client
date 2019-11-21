@@ -1,5 +1,5 @@
 /// Neo4j Client Response
-class Neo4jClientResponse {
+class Neo4jResponse {
   /// Columns response
   final List<String> columns;
 
@@ -9,9 +9,9 @@ class Neo4jClientResponse {
   /// Rows response
   final List<Map<String, dynamic>> rows;
 
-  Neo4jClientResponse({this.columns, this.errors, this.rows});
+  Neo4jResponse({this.columns, this.errors, this.rows});
 
-  factory Neo4jClientResponse.fromJson(Map<String, dynamic> json) {
+  factory Neo4jResponse.fromJson(Map<String, dynamic> json) {
     if (json == null) return null;
 
     List resultsData = [];
@@ -27,7 +27,7 @@ class Neo4jClientResponse {
       resultsData.add(rowMap);
     });
 
-    return Neo4jClientResponse(
+    return Neo4jResponse(
         columns: List<String>.from(json['results'].single['columns']),
         errors: json['errors'],
         rows: List<Map<String, dynamic>>.from(

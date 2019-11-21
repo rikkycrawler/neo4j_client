@@ -3,14 +3,13 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
 import 'package:neo4j_client/neo4j_client.dart';
-import 'package:neo4j_client/src/neo4j_client_request.dart';
 import 'package:test/test.dart';
 
 import './data/test_json.dart';
 
 void main() {
-  test('Neo4jClient Request', () {
-    var request = Neo4jClientRequest('MATCH (t:Test) RETURN t');
+  test('Neo4j Statement', () {
+    var request = Neo4jStatement('MATCH (t:Test) RETURN t');
     expect(request.json, {
       'statements': [
         {'statement': 'MATCH (t:Test) RETURN t'}
@@ -18,8 +17,8 @@ void main() {
     });
   });
 
-  test('Neo4jClient Response', () {
-    var response = Neo4jClientResponse.fromJson(testJson);
+  test('Neo4j Response', () {
+    var response = Neo4jResponse.fromJson(testJson);
 
     expect(response.columns, ["test"]);
     expect(response.errors, []);
@@ -44,8 +43,8 @@ void main() {
       });
 
       var client = Neo4jClient('http://localhost:7777', httpClient: mockClient);
-      Neo4jClientResponse response =
-          await client.request(Neo4jClientRequest('MATCH (t:Test) RETURN t'));
+      Neo4jResponse response =
+          await client.send(Neo4jStatement('MATCH (t:Test) RETURN t'));
 
       expect(url, 'http://localhost:7777/db/data/transaction/commit');
       expect(body, '{"statements":[{"statement":"MATCH (t:Test) RETURN t"}]}');
