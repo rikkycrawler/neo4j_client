@@ -1,7 +1,4 @@
-A library for Dart developers.
-
-Created from templates made available by Stagehand under a BSD-style
-[license](https://github.com/dart-lang/stagehand/blob/master/LICENSE).
+HttpClient for Neo4j on Dart 
 
 ## Usage
 
@@ -10,13 +7,14 @@ A simple usage example:
 ```dart
 import 'package:neo4j_client/neo4j_client.dart';
 
-main() {
-  var awesome = new Awesome();
+main() async {
+  var client = Neo4jClient('http://localhost:7777');
+  
+  Neo4jClientResponse response = await client.request(Neo4jClientRequest('MATCH (t:Test) RETURN t'));
+  
+  response.rows.forEach((row) => {
+    //...
+  });
 }
 ```
 
-## Features and bugs
-
-Please file feature requests and bugs at the [issue tracker][tracker].
-
-[tracker]: http://example.com/issues/replaceme
