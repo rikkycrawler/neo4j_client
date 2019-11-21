@@ -11,9 +11,8 @@ class Neo4jClientResponse {
 
   Neo4jClientResponse({this.columns, this.errors, this.rows});
 
-  factory Neo4jClientResponse.fromJson(Map<String, dynamic> json){
-    if (json == null)
-      return null;
+  factory Neo4jClientResponse.fromJson(Map<String, dynamic> json) {
+    if (json == null) return null;
 
     List resultsData = [];
     List columns = json['results'].single['columns'];
@@ -28,10 +27,10 @@ class Neo4jClientResponse {
       resultsData.add(rowMap);
     });
 
-    return  Neo4jClientResponse(
-      columns: List<String>.from(json['results'].single['columns']),
-      errors: json['errors'],
-      rows: List<Map<String, dynamic>>.from(json['results'].single['data'].map((data) => data['row'].single))
-    );
+    return Neo4jClientResponse(
+        columns: List<String>.from(json['results'].single['columns']),
+        errors: json['errors'],
+        rows: List<Map<String, dynamic>>.from(
+            json['results'].single['data'].map((data) => data['row'].single)));
   }
 }

@@ -3,7 +3,9 @@ class Neo4jClientRequest {
 
   Neo4jClientRequest(this.statement);
 
-  Map<String, dynamic> get json => {'statements': [{
-    'statement': statement
-  }]};
+  Map<String, dynamic> get json => {
+        'statements': [
+          {'statement': statement}
+        ]
+      };
 }
