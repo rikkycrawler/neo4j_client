@@ -22,10 +22,10 @@ class Neo4jResponse {
 
 /// Neo4j Client Result
 class Neo4jResult {
-  /// Columns neo4j result
+  /// Columns neo4j columns
   final List<String> columns;
 
-  /// Rows neo4j result
+  /// Rows neo4j rows
   final List rows;
 
   Neo4jResult({this.columns, this.rows});

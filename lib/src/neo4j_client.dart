@@ -32,6 +32,8 @@ class Neo4jClient {
           'Content-Type': 'application/json'
         });
 
+    _statements = [];
+
     if (response.statusCode != 200) return throw Exception(response.body);
 
     return Neo4jResponse.parse(json.decode(response.body));
