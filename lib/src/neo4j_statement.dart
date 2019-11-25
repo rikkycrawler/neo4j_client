@@ -3,9 +3,5 @@ class Neo4jStatement {
 
   Neo4jStatement(this.statement);
 
-  Map<String, dynamic> get json => {
-        'statements': [
-          {'statement': statement}
-        ]
-      };
+  Map<String, dynamic> get json => {'statement': statement};
 }

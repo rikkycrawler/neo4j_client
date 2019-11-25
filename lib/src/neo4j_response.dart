@@ -1,36 +1,62 @@
 /// Neo4j Client Response
 class Neo4jResponse {
   /// Columns response
-  final List<String> columns;
+  final List results;
 
   /// Error response
   final List errors;
 
-  /// Rows response
-  final List<Map<String, dynamic>> rows;
+  Neo4jResponse({this.results, this.errors});
 
-  Neo4jResponse({this.columns, this.errors, this.rows});
-
-  factory Neo4jResponse.fromJson(Map<String, dynamic> json) {
-    if (json == null) return null;
-
-    List resultsData = [];
-    List columns = json['results'].single['columns'];
-
-    json['results'].single['data'].forEach((data) {
-      Map<String, dynamic> rowMap = {};
-
-      data['row'].asMap().forEach((rowId, row) {
-        rowMap[columns[rowId]] = row;
-      });
-
-      resultsData.add(rowMap);
-    });
+  factory Neo4jResponse.parse(Map<String, dynamic> json) {
+    if (json == null)
+      return null;
 
     return Neo4jResponse(
-        columns: List<String>.from(json['results'].single['columns']),
-        errors: json['errors'],
-        rows: List<Map<String, dynamic>>.from(
-            json['results'].single['data'].map((data) => data['row'].single)));
+      results: json['results'].map((result) => Neo4jResult.parse(result)).toList(),
+      errors: json['errors'].map((error) => Neo4jError.parse(error)).toList()
+    );
+  }
+}
+
+/// Neo4j Client Result
+class Neo4jResult {
+  /// Columns neo4j result
+  final List<String> columns;
+
+  /// Rows neo4j result
+  final List rows;
+
+  Neo4jResult({this.columns, this.rows});
+
+  factory Neo4jResult.parse(Map<String, dynamic> json){
+    if (json == null)
+      return null;
+
+    return Neo4jResult(
+      columns: List<String>.from(['columns']),
+      rows: json['data'].map((data) => data['row']).toList()
+    );
+  }
+}
+
+/// Neo4j Client Error
+class Neo4jError {
+  /// Neo4j error code
+  final String code;
+
+  /// Error message
+  final String message;
+
+  Neo4jError({this.code, this.message});
+
+  factory Neo4jError.parse(Map<String, dynamic> json) {
+    if (json == null)
+      return null;
+
+    return Neo4jError(
+      code: json['code'],
+      message: json['message']
+    );
   }
 }

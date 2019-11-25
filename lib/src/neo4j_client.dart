@@ -16,9 +16,18 @@ class Neo4jClient {
       : _apiUri = Uri.parse('${uri}/db/data/transaction/commit'),
         _httpClient = httpClient ?? IOClient();
 
+  List<Neo4jStatement> _statements = [];
+
+  void addStatement (Neo4jStatement statement) => _statements.add(statement);
+
   Future<Neo4jResponse> send(Neo4jStatement statement) async {
+    if (statement != null)
+      addStatement(statement);
+      
     Response response = await _httpClient.post(_apiUri,
-        body: json.encode(statement.json),
+        body: json.encode({
+          'statements': _statements.map((statement) => statement.json).toList()
+        }),
         headers: {
           'Accept': 'application/json; charset=UTF-8',
           'Content-Type': 'application/json'
@@ -26,7 +35,7 @@ class Neo4jClient {
 
     if (response.statusCode != 200) return throw Exception(response.body);
 
-    return Neo4jResponse.fromJson(json.decode(response.body));
+    return Neo4jResponse.parse(json.decode(response.body));
   }
 
   String toCypherObject(Map obj, {cypherEncodable(object)}) {
