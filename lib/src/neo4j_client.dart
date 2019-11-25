@@ -18,12 +18,11 @@ class Neo4jClient {
 
   List<Neo4jStatement> _statements = [];
 
-  void addStatement (Neo4jStatement statement) => _statements.add(statement);
+  void addStatement(Neo4jStatement statement) => _statements.add(statement);
 
   Future<Neo4jResponse> send(Neo4jStatement statement) async {
-    if (statement != null)
-      addStatement(statement);
-      
+    if (statement != null) addStatement(statement);
+
     Response response = await _httpClient.post(_apiUri,
         body: json.encode({
           'statements': _statements.map((statement) => statement.json).toList()

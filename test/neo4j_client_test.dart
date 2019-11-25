@@ -8,7 +8,6 @@ import 'package:test/test.dart';
 import './data/test_json.dart';
 
 void main() {
-  
   test('request-response', () async {
     String body;
     Map<String, String> headers;
@@ -35,8 +34,12 @@ void main() {
 
     expect(response.results[0].columns, ["columns"]);
     expect(response.results[0].rows, [
-        [{'property_1': 'test_1', 'property_2': 'test_2', 'property_3': 'test_3'}],
-        [{'property_4': 'test_5', 'property_6': 'test_7', 'property_8': 'test_8'}]
+      [
+        {'property_1': 'test_1', 'property_2': 'test_2', 'property_3': 'test_3'}
+      ],
+      [
+        {'property_4': 'test_5', 'property_6': 'test_7', 'property_8': 'test_8'}
+      ]
     ]);
     expect(response.errors, []);
   });
