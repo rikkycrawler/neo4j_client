@@ -1,10 +1,10 @@
 /// Neo4j Client Response
 class Neo4jResponse {
   /// Columns response
-  final List results;
+  final List<Neo4jResult> results;
 
   /// Error response
-  final List errors;
+  final List<Neo4jError> errors;
 
   Neo4jResponse({this.results, this.errors});
 
@@ -13,9 +13,10 @@ class Neo4jResponse {
 
     return Neo4jResponse(
         results:
-            json['results'].map((result) => Neo4jResult.parse(result)).toList(),
+            List<Neo4jResult>.from(json['results'].map((result) => Neo4jResult.parse(result))),
         errors:
-            json['errors'].map((error) => Neo4jError.parse(error)).toList());
+            List<Neo4jError>.from(json['errors'].map((error) => Neo4jError.parse(error)))
+    );
   }
 }
 
