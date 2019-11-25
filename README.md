@@ -8,11 +8,14 @@ A simple usage example:
 import 'package:neo4j_client/neo4j_client.dart';
 
 main() async {
-  Neo4jResponse response =
-      await client.send(Neo4jStatement('MATCH (t:Test) RETURN t'));
+  var client = Neo4jClient('http://localhost:7474');
 
-  response.rows.forEach((row) => {
-    //...
+  client.addStatement(Neo4jStatement('MATCH (t:Test) RETURN t'));
+  Neo4jResponse response =
+      await client.send(Neo4jStatement('MATCH (n:Node) RETURN n'));
+
+  response.results.forEach((result) => {
+    //..
   });
 }
 ```
