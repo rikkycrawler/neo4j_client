@@ -41,7 +41,7 @@ class Neo4jClient {
 
   String toCypherObject(Map obj, {cypherEncodable(object)}) {
     final encoded = obj.entries.fold<List<String>>([], (encodedEntries, entry) {
-      if (entry.value is Map) return encodedEntries;
+      if (entry.value is Map && cypherEncodable == null) return encodedEntries;
 
       return encodedEntries
         ..add(
