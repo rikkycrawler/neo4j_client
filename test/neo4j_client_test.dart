@@ -22,8 +22,9 @@ void main() {
     });
 
     var client = Neo4jClient('http://localhost:7777', httpClient: mockClient);
-    Neo4jResponse response =
-        await client.send(Neo4jStatement('MATCH (t:Test) RETURN t'));
+    final request = Neo4jRequest()..addStatement('MATCH (t:Test) RETURN t');
+    
+    Neo4jResponse response = await client.send(request);
 
     expect(url, 'http://localhost:7777/db/data/transaction/commit');
     expect(body, '{"statements":[{"statement":"MATCH (t:Test) RETURN t"}]}');

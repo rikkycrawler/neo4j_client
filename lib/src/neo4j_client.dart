@@ -3,10 +3,9 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 import 'package:http/io_client.dart';
-import 'package:neo4j_client/src/neo4j_statement.dart';
 
 import './neo4j_response.dart';
-import './neo4j_statement.dart';
+import './neo4j_request.dart';
 
 class Neo4jClient {
   final Uri _apiUri;
@@ -16,23 +15,13 @@ class Neo4jClient {
       : _apiUri = Uri.parse('${uri}/db/data/transaction/commit'),
         _httpClient = httpClient ?? IOClient();
 
-  List<Neo4jStatement> _statements = [];
-
-  void addStatement(Neo4jStatement statement) => _statements.add(statement);
-
-  Future<Neo4jResponse> send(Neo4jStatement statement) async {
-    if (statement != null) addStatement(statement);
-
+  Future<Neo4jResponse> send(Neo4jRequest request) async {
     Response response = await _httpClient.post(_apiUri,
-        body: json.encode({
-          'statements': _statements.map((statement) => statement.json).toList()
-        }),
+        body: request.statementsStr,
         headers: {
           'Accept': 'application/json; charset=UTF-8',
           'Content-Type': 'application/json'
         });
-
-    _statements = [];
 
     if (response.statusCode != 200) return throw Exception(response.body);
 
