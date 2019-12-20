@@ -34,9 +34,14 @@ class Neo4jClient {
 
       return encodedEntries
         ..add(
-            '${entry.key}: ${cypherEncodable == null ? json.encode(entry.value) : cypherEncodable(entry)}');
+            '${entry.key}: ${cypherEncodable == null ? json.encode(entry.value, toEncodable: toEncodable) : cypherEncodable(entry)}');
     }).join(', ');
 
     return '{$encoded}';
   }
+}
+
+dynamic toEncodable(value) {
+  if (value is DateTime) return value.toUtc().toIso8601String();
+  return '';
 }
